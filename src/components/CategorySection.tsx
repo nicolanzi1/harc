@@ -1,9 +1,9 @@
 import type { Category, Resource } from "../types/Resource";
 import ResourceCard from "./ResourceCard";
 
-type Props = { title: Category; items: Resource[] }
+type Props = { title: Category; items: Resource[]; onOpen: (r: Resource) => void }
 
-export default function CategorySection({ title, items }: Props) {
+export default function CategorySection({ title, items, onOpen }: Props) {
     const headingId = `h-${title}`
     return (
         <section aria-labelledby={headingId} className="space-y-3">
@@ -12,7 +12,7 @@ export default function CategorySection({ title, items }: Props) {
             </h2>
             <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {items.map((r) => (
-                    <ResourceCard key={r.id} resource={r} />
+                    <ResourceCard key={r.id} resource={r} onOpen={onOpen} />
                 ))}
             </ul>
         </section>
