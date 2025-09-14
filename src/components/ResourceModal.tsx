@@ -1,25 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { Resource } from "../types/Resource";
 
 type Props = { resource: Resource; onClose: () => void }
 
 export default function ResourceModal({ resource, onClose }: Props) {
-    useEffect(() => {
-        const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
-        document.addEventListener('keydown', onKey)
-        return () => document.removeEventListener('keydown', onKey)
-    }, [onClose])
-
+    const closeBtnRef = useRef<HTMLButtonElement>(null)
+    const prevActiveRef = useRef<HTMLElement | null>(null)
+    const prevOverflow = document.body.style.overflow
     const titleId = 'resource-dialog-title'
     const descId = 'resource-dialog-desc'
 
+    useEffect(() => {
+        prevActiveRef.current = document.activeElement as HTMLElement | null
+        const t = window.setTimeout(() => closeBtnRef.current?.focus(), 0)
+
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') onClose()
+        }
+        document.body.style.overflow = 'hidden'
+
+        return () => {
+            document.removeEventListener('keydown', onKey)
+            document.body.style.overflow = prevOverflow || ''
+            prevActiveRef.current?.focus()
+            window.clearTimeout(t)
+        }
+    }, [onClose])
+
     return (
         <div role="dialog" aria-modal="true" aria-labelledby={titleId} aria-describedby={descId} className="fixed inset-0 z-50 flex items-center justify-center">
-            <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-            <div className="relative bg-white max-w-lg w-[90vw] rounded-xl shadow-lg overflow-hidden">
-                <img src={resource.thumbnail} alt="" className="h-48 w-full object-cover" />
+            <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
+            <div
+                className="relative z-10 w-[93vw] max-w-lg overflow-hidden rounded-xl bg-white shadow-lg"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {resource.thumbnail ? (
+                    <img src={resource.thumbnail} alt="" decoding="async" className="h-48 w-full object-cover" />
+                ) : (
+                    <div aria-hidden="true" className="h-48 w-full bg-gray-100" />
+                )}
+                
                 <div className="p-4 space-y-2">
-                    <h2 id={titleId} className="text-xl font-semibold">{resource.title}</h2>
+                    <div className="flex items-center justify-between">
+                        <h2 id={titleId} className="text-xl font-semibold">{resource.title}</h2>
+                        <span className="ml-3 srhink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">
+                            {resource.category}
+                        </span>
+                    </div>
                     <p id={descId} className="text-sm text-gray-700">{resource.description}</p>
                     <div className="flex flex-wrap gap-1">
                         {resource.tags.map((t, i) => (
@@ -30,7 +57,7 @@ export default function ResourceModal({ resource, onClose }: Props) {
                         {resource.duration} min - {new Date(resource.date_uploaded).toLocaleDateString()}
                     </p>
                     <div className="pt-2">
-                        <button onClick={onClose} className="px-3 py-2 rounded-md bg-gray-900 text-white cursor-pointer">Close</button>
+                        <button ref={closeBtnRef} onClick={onClose} className="px-3 py-2 rounded-md bg-gray-900 text-white text-sm cursor-pointer">Close</button>
                     </div>
                 </div>
             </div>

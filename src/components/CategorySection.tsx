@@ -6,11 +6,11 @@ type Props = { title: Category; items: Resource[]; onOpen: (r: Resource) => void
 export default function CategorySection({ title, items, onOpen }: Props) {
     const headingId = `h-${title}`
     return (
-        <section aria-labelledby={headingId} className="space-y-3">
+        <section aria-labelledby={headingId} className="py-2 flex h-full flex-col">
             <h2 id={headingId} className="text-lg font-semibold tracking-tight">
                 {title}
             </h2>
-            <ul role="list" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <ul role="list" className="mt-3 grid grow">
                 {items.map((r) => (
                     <ResourceCard key={r.id} resource={r} onOpen={onOpen} />
                 ))}
