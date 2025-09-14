@@ -6,18 +6,21 @@ type Props = { resource: Resource; onClose: () => void }
 export default function ResourceModal({ resource, onClose }: Props) {
     const closeBtnRef = useRef<HTMLButtonElement>(null)
     const prevActiveRef = useRef<HTMLElement | null>(null)
-    const prevOverflow = document.body.style.overflow
     const titleId = 'resource-dialog-title'
     const descId = 'resource-dialog-desc'
 
     useEffect(() => {
         prevActiveRef.current = document.activeElement as HTMLElement | null
         const t = window.setTimeout(() => closeBtnRef.current?.focus(), 0)
+        const prevOverflow = document.body.style.overflow
+        document.body.style.overflow = 'hidden'
 
         const onKey = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose()
+            if (e.key === 'Escape' || e.key === 'Esc') onClose()
         }
-        document.body.style.overflow = 'hidden'
+
+        window.addEventListener('keydown', onKey)
+        document.addEventListener('keydown', onKey)
 
         return () => {
             document.removeEventListener('keydown', onKey)
@@ -43,7 +46,7 @@ export default function ResourceModal({ resource, onClose }: Props) {
                 <div className="p-4 space-y-2">
                     <div className="flex items-center justify-between">
                         <h2 id={titleId} className="text-xl font-semibold text-navy">{resource.title}</h2>
-                        <span className="ml-3 srhink-0 rounded-full bg-purple/10 px-2 py-1 text-xs text-purple">
+                        <span className="ml-3 shrink-0 rounded-full bg-purple/10 px-2 py-1 text-xs text-purple">
                             {resource.category}
                         </span>
                     </div>
