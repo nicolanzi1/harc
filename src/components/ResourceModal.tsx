@@ -42,22 +42,22 @@ export default function ResourceModal({ resource, onClose }: Props) {
                 
                 <div className="p-4 space-y-2">
                     <div className="flex items-center justify-between">
-                        <h2 id={titleId} className="text-xl font-semibold">{resource.title}</h2>
-                        <span className="ml-3 srhink-0 rounded-full bg-gray-100 px-2 py-1 text-xs text-gray-700">
+                        <h2 id={titleId} className="text-xl font-semibold text-navy">{resource.title}</h2>
+                        <span className="ml-3 srhink-0 rounded-full bg-purple/10 px-2 py-1 text-xs text-purple">
                             {resource.category}
                         </span>
                     </div>
                     <p id={descId} className="text-sm text-gray-700">{resource.description}</p>
                     <div className="flex flex-wrap gap-1">
                         {resource.tags.map((t, i) => (
-                            <span key={`${resource.id}-modal-${i}-${t}`} className="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-700">{t}</span>
+                            <span key={`${resource.id}-modal-${i}-${t}`} className="text-xs px-2 py-1 rounded-full bg-teal/10 text-navy/80">{t}</span>
                         ))}
                     </div>
                     <p className="text-xs text-gray-500">
                         {resource.duration} min - {new Date(resource.date_uploaded).toLocaleDateString()}
                     </p>
                     <div className="pt-2">
-                        <button ref={closeBtnRef} onClick={onClose} className="px-3 py-2 rounded-md bg-gray-900 text-white text-sm cursor-pointer">Close</button>
+                        <button ref={closeBtnRef} onClick={onClose} className="px-3 py-2 rounded-md bg-navy/90 text-white text-sm cursor-pointer">Close</button>
                     </div>
                 </div>
             </div>

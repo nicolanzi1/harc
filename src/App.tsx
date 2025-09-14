@@ -38,9 +38,9 @@ export default function App({ initial }: { initial?: Resource[] }) {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-8 space-y-8">
-      <header className="space-y-2">
-        <h1 className="text-2xl font-bold">Health Assured Resource Centre</h1>
-        <p className="text-gray-600">Curated resources, grouped by category.</p>
+      <header className="space-y-4 rounded-2xl bg-gradient-to-r from-purple/20 to-teal/20 p-4">
+        <h1 className="text-2xl font-bold text-navy">Health Assured Resource Centre</h1>
+        <p className="text-navy/70">Curated resources, grouped by category.</p>
         <div className="flex flex-col sm:flex-row flex-wrap gap-4">
           <FilterBar value={query} onChange={setQuery} />
           <CategorySortSelect value={catOrder} onChange={setCatOrder} />

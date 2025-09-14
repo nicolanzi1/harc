@@ -7,7 +7,7 @@ export default function CategorySection({ title, items, onOpen }: Props) {
     const headingId = `h-${title}`
     return (
         <section aria-labelledby={headingId} className="py-2 flex h-full flex-col">
-            <h2 id={headingId} className="text-lg font-semibold tracking-tight">
+            <h2 id={headingId} className="text-lg font-semibold tracking-tight text-navy">
                 {title}
             </h2>
             <ul role="list" className="mt-3 grid grow">
