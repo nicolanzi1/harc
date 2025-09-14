@@ -14,11 +14,17 @@ Single-page React app that **groups resources by category** on first load, with:
 ## Getting started
 ```
 npm i
-npm run dev
-npm run test
-npm run test:run
-npm run lint
-npm run typecheck
+npm run dev        # http://localhost:5173
+npm run test       # watch mode
+npm run test:run   # CI mode
+npm run lint       # Run ESLint static analysis on .ts/.tsx; fails on any warnings (max-warnings=0)
+npm run typecheck  # Run TypeScript compiler in "noEmit" mode to verify types without building
+```
+
+## Build & preview
+```
+npm run build       # creates production bundle in /dist
+npm run preview     # serves /dist (default: http://localhost:4173) 
 ```
 
 ## Key decisions
