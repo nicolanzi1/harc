@@ -12,7 +12,7 @@ export default function CategorySortSelect({ value, onChange }: Props) {
                 id="cat-sort"
                 value={value}
                 onChange={(e) => onChange(e.target.value as CategoryOrder)}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-gray-900"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-gray-900 cursor-pointer"
             >
                 <option value="default">Default order</option>
                 <option value="az">A-Z</option>
