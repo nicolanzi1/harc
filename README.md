@@ -1,69 +1,47 @@
-# React + TypeScript + Vite
+# Health Assured - Frontend Tech Task for Junior and Middleweight Developer Role
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Single-page React app that **groups resources by category** on first load, with:
+- **Details on click** (accessible modal: ESC/overlay close, focus restore)
+- **Filter by title/tags**
+- **Sort categories** (Default / A-Z / Z-A)
 
-Currently, two official plugins are available:
+## Stack & rationale
+- Vite + React + TypeScript - fast DX, minimal scaffolding
+- Tailwind - quick, consistent UI
+- Vitest + React Testing Library - TDD-friendly component testing
+- ESLint - Prettier - code quality and formatting
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Getting started
+```
+npm i
+npm run dev
+npm run test
+npm run test:run
+npm run lint
+npm run typecheck
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Key decisions
+- Grouped layout meets the brief; category badges on each card give context
+- Modal a11y: role="dialog", aria-modal, ESC/overlay close, initial focus + restore
+- Filtering and sorting: lightweight state + memorized transforms; no global state lib
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Tests
+- App.test.tsx - renders all categories with correct card counts
+- Filter.test.tsx - filters by title/tags; hides empty categories; "No results" live region
+- ResourceInteractions.test.tsx - modal opens on click, close on ESQ
+- SortCategories.test.tsx - reorders sections (Default / A-Z / Z-A)
+- utils/group.test.ts - grouping utility correctness
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Accessibility
+- Semantic landmarks (header, main, sections with labelled headings)
+- Live region for "No results"
+- Keyboard support (Enter to open, ESC/overlay close)
+- Focus management inside modal (initial focus + return)
+
+## What I'd do with more time
+- Focus trap inside the modal; return focus to the triggering card
+- Image skeletons and error fallbacks
+- CI workflow, preview deply (Vercel/Netlify)
+- Storybook for isolated component docs
+- Visual regression tests (e.g., Playwright)
